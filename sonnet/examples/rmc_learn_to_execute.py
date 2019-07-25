@@ -206,6 +206,7 @@ def build_and_train(iterations, log_stride, test=False, gpu_auto_mixed_precision
         if int(tf_version_list[0]) < 2:
             if int(tf_version_list[1]) < 14:
                 raise (RuntimeError("TensorFlow 1.14.0 or newer is required for automatic precision."))
+        os.environ['TF_AUTO_MIXED_PRECISION_GRAPH_REWRITE_BLACKLIST_ADD'] = 'TensorArrayWriteV3'
         optimizer = tf.train.experimental.enable_mixed_precision_graph_rewrite(optimizer)
     # Compute loss, accuracy & the step op.
     inputs, targets, _, input_lengths, output_lengths = train_data_iter
